@@ -14,29 +14,17 @@ import org.springframework.xml.xsd.XsdSchema;
 
 @EnableWs
 @Configuration
-public class Configuracion extends WsConfigurerAdapter {
+public class Configuracion extends WsConfigurerAdapter{
     @Bean
-    public XsdSchema saludosSchema() {
+    public XsdSchema saludoSchema(){
         return new SimpleXsdSchema(new ClassPathResource("esquema.xsd"));
     }
     
     @Bean
-    //public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
-    public List<ServletRegistrationBean<MessageDispatcherServlet>> messageDispatcherServlets(ApplicationContext applicationContext) {
-
-	MessageDispatcherServlet servlet = new MessageDispatcherServlet();
-	servlet.setApplicationContext(applicationContext);        
-        servlet.setTransformWsdlLocations(true);
-
-	List<ServletRegistrationBean<MessageDispatcherServlet>> servletRegistrationBeans = new ArrayList<>();
-	ServletRegistrationBean<MessageDispatcherServlet> registrationBean1 = new ServletRegistrationBean<>(servlet, "/ws/*");
-    	ServletRegistrationBean<MessageDispatcherServlet> registrationBean2 = new ServletRegistrationBean<>(servlet, "/api/*");
-
-   	servletRegistrationBeans.add(registrationBean1);
-    	servletRegistrationBeans.add(registrationBean2);
-
-	return servletRegistrationBeans;
-        //return new ServletRegistrationBean<>(servlet, "/s/*");
+    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
+        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
+        servlet.setApplicationContext(applicationContext);        servlet.setTransformWsdlLocations(true);
+        return new ServletRegistrationBean<>(servlet, "/ws/*");
     }
 
     @Bean(name = "saludos")
@@ -49,3 +37,4 @@ public class Configuracion extends WsConfigurerAdapter {
         return wsdl;
     }
 }
+
